@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import { useRouter } from "next/router";
 import BasicLayout from "../layouts/BasicLayout";
 import { getArtworkByUrlApi } from "../api/artwork";
 import useCart from "../hooks/useCart";
@@ -9,19 +7,8 @@ import AddressShipping from "../components/Cart/AddressShipping";
 import Payment from "../components/Cart/Payment";
 
 export default function Cart() {
-  const router = useRouter();
-  const { status } = router.query;
-
-  const { getProductsCart, removeAllProductsCart } = useCart();
+  const { getProductsCart } = useCart();
   let products = getProductsCart();
-
-  useEffect(() => {
-    if (status === "approved") {
-      (async () => {
-        await removeAllProductsCart();
-      })();
-    }
-  }, [status]);
 
   return !products ? <EmptyCart /> : <FullCart products={products} />;
 }
@@ -58,6 +45,7 @@ function FullCart(props) {
         products={productsData}
         reloadCart={reloadCart}
         setReloadCart={setReloadCart}
+        address={address}
       />
       <AddressShipping setAddress={setAddress} />
       {address && <Payment products={productsData} address={address} />}

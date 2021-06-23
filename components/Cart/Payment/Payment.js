@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { checkout } from "../../../api/checkout";
+import useCart from "../../../hooks/useCart";
 
 export default function Payment(props) {
+
   const checkoutForm = useRef(null);
 
   const { products, address } = props;
@@ -15,6 +17,8 @@ export default function Payment(props) {
 
   const checkoutAsync = async () => {
     products.map((index) => (totalPrice += index.price));
+
+    localStorage.setItem("TOTAL_PRICE", totalPrice);
 
     var orderData = {
       quantity: "1",
@@ -31,7 +35,6 @@ export default function Payment(props) {
     script.src =
       "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
     script.type = "text/javascript";
-    console.log(resultId);
     script.dataset.preferenceId = resultId.id;
     setPaymentReady(true);
     document.getElementById("button-checkout").innerHTML = "";
