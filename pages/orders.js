@@ -26,7 +26,7 @@ export default function Orders() {
               Todavía no has realizado ninguna compra
             </h2>
           ) : (
-            <OrderList orders={orders} />
+            orders && <OrderList orders={orders} />
           )}
         </div>
       </div>

@@ -14,7 +14,7 @@ export default function SummaryCart(props) {
   const { removeProductCart } = useCart();
 
   if(products) {
-    localStorage.setItem("PRODUCTS", products);
+    localStorage.setItem("PRODUCTS", JSON.stringify(products));
   }
 
   const router = useRouter();
@@ -35,8 +35,6 @@ export default function SummaryCart(props) {
     setReloadCart(true);
   };
 
-  console.log("datoooos: ", JSON.parse(localStorage.getItem("TOTAL_PRICE")));
-
   useEffect(() => {
     if (status === "approved") { 
       const order = {
@@ -44,7 +42,7 @@ export default function SummaryCart(props) {
         address: localStorage.getItem("ADDRESS"),
         artwork: localStorage.getItem("PRODUCTS"),
         idUser: auth.idUser,
-        totalPayment: parseFloat(localStorage.getItem("TOTAL_PRICE")),     
+        totalPayment: localStorage.getItem("TOTAL_PRICE"),     
       };
 
       saveOrder(order);
@@ -57,6 +55,7 @@ export default function SummaryCart(props) {
 
   const saveOrder = async (order) => {
     await paymentCartApi(order, logout);
+    window.location.reload();
   }
 
   return (

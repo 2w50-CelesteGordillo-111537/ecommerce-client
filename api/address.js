@@ -11,6 +11,7 @@ export async function createAddressApi(address, logout) {
       },
       body: JSON.stringify(address),
     };
+    console.log("Params: ", params);
     const result = await authFetch(url, params, logout);
     return result;
   } catch (error) {

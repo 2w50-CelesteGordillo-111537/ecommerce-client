@@ -58,18 +58,18 @@ export function removeProductCart(product) {
 
 export async function paymentCartApi(order, logout) {
   try {
-    const url = `${BASE_PATH}/orders`;
+    const url = `http://localhost:3001/api/orders`;
     const params = {
       method: "POST",
-      header: {
-        "Content-Type": "application/json"
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(order)
     }
 
     console.log("Url: ", url, " params: ", params);
 
-    const result = await authFetch(url, params, logout);
+    const result = await fetch(url, params);
     return result;
 
   } catch (error) {

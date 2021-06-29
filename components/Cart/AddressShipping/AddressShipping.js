@@ -55,7 +55,7 @@ function Address(props) {
   const changeAddress = () => {
     setAddressActive(address._id);
     setAddress(address);
-    localStorage.setItem("ADDRESS", address);
+    localStorage.setItem("ADDRESS", JSON.stringify(address));
   };
 
   return (

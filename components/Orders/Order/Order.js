@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Icon } from "semantic-ui-react";
 import Link from "next/link";
 import moment from "moment";
@@ -7,10 +7,15 @@ import BasicModal from "../../Modal/BasicModal";
 
 export default function Order(props) {
   const { order } = props;
-  console.log("Orders: ", order);
-  const { artwork, totalPayment, createdAt, addressShipping } = order;
-  const { title, poster, url } = artwork;
+  const { artwork, totalPayment, created_at, address } = order;
+
+
+  const url = JSON.parse(artwork)[0].url;
+  const poster = JSON.parse(artwork)[0].poster;
+  const title = JSON.parse(artwork)[0].title;
+
   const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <div className="order">
@@ -18,7 +23,7 @@ export default function Order(props) {
           <div className="order__info-data">
             <Link href={`/${url}`}>
               <a>
-                <Image src={poster.url} alt={title} />
+                <Image src={poster && poster.url} alt={title} />
               </a>
             </Link>
             <div>
@@ -28,7 +33,7 @@ export default function Order(props) {
           </div>
           <div className="order__other">
             <p className="order__other-date">
-              {moment(createdAt).format("L")} - {moment(createdAt).format("LT")}
+              {moment(created_at).format("L")} - {moment(created_at).format("LT")}
             </p>
             <Icon name="eye" circular link onClick={() => setShowModal(true)} />
           </div>
@@ -37,7 +42,7 @@ export default function Order(props) {
       <AddressModal
         showModal={showModal}
         setShowModal={setShowModal}
-        addressShipping={addressShipping}
+        address={address}
         title={title}
       />
     </>
@@ -45,7 +50,9 @@ export default function Order(props) {
 }
 
 function AddressModal(props) {
-  const { showModal, setShowModal, addressShipping, title } = props;
+  const { showModal, setShowModal, address, title } = props;
+
+  const parsedAddress = JSON.parse(address);
 
   return (
     <BasicModal
@@ -56,13 +63,13 @@ function AddressModal(props) {
     >
       <h3>El pedido se ha enviado a la siguiente dirección:</h3>
       <div>
-        <p>{addressShipping.name}</p>
-        <p>{addressShipping.address}</p>
+        <p>{parsedAddress.name}</p>
+        <p>{parsedAddress.address}</p>
         <p>
-          {addressShipping.state}, {addressShipping.city}{" "}
-          {addressShipping.postalCode}
+          {parsedAddress.state}, {parsedAddress.city}{" "}
+          {parsedAddress.postalCode}
         </p>
-        <p>{addressShipping.phone}</p>
+        <p>{parsedAddress.phone}</p>
       </div>
     </BasicModal>
   );
