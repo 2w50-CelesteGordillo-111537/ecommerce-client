@@ -1,0 +1,18 @@
+.basic-layout {
+    .content {
+        height: auto;
+    }
+}
+
+.accordion {
+    text-align: center;
+    position: relative;
+
+    img {
+        max-width: 100% !important;
+    }
+}
+
+.ui.styled.accordion {
+    width: 100% !important;
+}

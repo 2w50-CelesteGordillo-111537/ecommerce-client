@@ -100,7 +100,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <AuthContext.Provider value={authData}>
       <CartContext.Provider value={cartData}>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
         <ToastContainer
           position="top-right"
           autoClose={5000}

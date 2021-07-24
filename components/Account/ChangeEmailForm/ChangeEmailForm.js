@@ -5,10 +5,9 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { updateEmailApi } from "../../../api/user";
 
-export default function ChangeEmailForm(props) {
+export default function ChangeEmailForm(props) { 
     const { user, logout, setReloadUser } = props;
     const [loading, setLoading] = useState(false)
-
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object(validationSchema()),

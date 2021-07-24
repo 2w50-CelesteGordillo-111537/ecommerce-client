@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Menu, Grid, Icon, Label } from "semantic-ui-react";
+import {
+  Container,
+  Menu,
+  Grid,
+  Icon,
+  Label,
+  Dropdown,
+} from "semantic-ui-react";
 import Link from "next/link";
 import { map } from "lodash";
 import BasicModal from "../../Modal/BasicModal";
@@ -8,6 +15,12 @@ import useAuth from "../../../hooks/useAuth";
 import useCart from "../../../hooks/useCart";
 import { getMeApi } from "../../../api/user";
 import { getPlatformsApi } from "../../../api/platform";
+
+const options = [
+  { key: 1, text: "Choice 1", value: 1 },
+  { key: 2, text: "Choice 2", value: 2 },
+  { key: 3, text: "Choice 3", value: 3 },
+];
 
 export default function MenuWeb() {
   const [platforms, setPlatforms] = useState([]);
@@ -82,7 +95,7 @@ function MenuPlatforms(props) {
 function MenuOptions(props) {
   const { onShowModal, user, logout } = props;
   const { productsCart } = useCart();
-
+  //console.log("User: ", user.role.name)
   return (
     <Menu>
       {user ? (
@@ -115,15 +128,46 @@ function MenuOptions(props) {
               )}
             </Menu.Item>
           </Link>
+          {user.role.name === "Admin" ? (
+            <Link href="/reports">
+              <Menu.Item as="a">
+                <Icon name="chart area" />
+              </Menu.Item>
+            </Link>
+          ) : null}
+          <Menu.Item as="a">
+            <Dropdown icon="info" button className="icon" floating>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/faq">FAQ's</Dropdown.Item>
+                <Dropdown.Item href="/terms">
+                  Términos y condiciones
+                </Dropdown.Item>
+                <Dropdown.Item href="/contact">Contáctanos</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
           <Menu.Item className="m-0" onClick={logout}>
             <Icon name="power off" />
           </Menu.Item>
         </>
       ) : (
-        <Menu.Item onClick={onShowModal}>
-          <Icon name="user outline" />
-          Mi cuenta
-        </Menu.Item>
+        <>
+          <Menu.Item onClick={onShowModal}>
+            <Icon name="user outline" />
+            Mi cuenta
+          </Menu.Item>
+          <Menu.Item as="a">
+            <Dropdown icon="info" button className="icon" floating>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/faq">FAQ's</Dropdown.Item>
+                <Dropdown.Item href="/terms">
+                  Términos y condiciones
+                </Dropdown.Item>
+                <Dropdown.Item href="/contact">Contáctanos</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
+        </>
       )}
     </Menu>
   );

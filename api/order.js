@@ -10,3 +10,14 @@ export async function getOrdersApi(idUser, logout) {
     return null;
   }
 }
+
+export async function getAllOrders() {
+  try {
+    const url = `http://localhost:3001/api/orders/`;
+    const result = await fetch(url);
+    return result.json();
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
